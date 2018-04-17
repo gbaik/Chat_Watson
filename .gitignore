@@ -1,0 +1,8 @@
+# OS X
+.DS_Store
+
+# Compiled Dirs (http://nodejs.org/api/addons.html)
+public/dist/
+
+# Dependency directory
+node_modules/

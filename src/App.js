@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Chat from './components/Chat';
 import Login from './components/Login';
+import io from 'socket.io-client';
 
 const App = () => (
   <div>
-    <Login />
+    <Chat />
+    {/* <Login /> */}
   </div>
 )
 

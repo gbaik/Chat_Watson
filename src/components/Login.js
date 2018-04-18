@@ -25,7 +25,7 @@ class Login extends Component {
       <div>
         <h3>What's your name?</h3>
         <form onSubmit = { this.handleSubmit }>
-          <input type = 'username' value = { this.state.username } onChange = { this.handleOnChange }/>
+          <input type = 'text' value = { this.state.username } onChange = { this.handleOnChange }/>
           <input type = 'submit'/>
         </form>
       </div>

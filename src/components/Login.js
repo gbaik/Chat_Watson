@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 import io from 'socket.io-client';
 
@@ -20,7 +19,13 @@ class Login extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log(this.state);
+    if (!this.state.roomname) {
+      this.setState({
+        roomname: 'random'
+      })
+    }
+
+    this.props.history.push(`/general`)
     // io.emit('add user', this.state.username);
   }
 
@@ -33,8 +38,8 @@ class Login extends Component {
           <select>
             <option>English</option>
           </select>
-          Room (Optional): <input type = 'text' name = 'roomname' value = { this.state.roomname } onChange = { this.handleOnChange }/>
-          <input type = 'submit'/>
+          Join Room (Optional): <input type = 'text' name = 'roomname' value = { this.state.roomname } onChange = { this.handleOnChange }/>
+          <input type = 'submit' value = 'Enter'/>
         </form>
       </div>
     );

@@ -1,9 +1,12 @@
 // import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { withRouter } from 'react-router'
 
 import Chat from './Chat';
 import Login from './Login';
 import io from 'socket.io-client';
+
+import { updateUsername } from  '../stores/Display/actions';
 
 // const Display = ({ history }) => (
 //   <div>
@@ -19,6 +22,7 @@ import io from 'socket.io-client';
 // )
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Display extends Component { 
   state = {
@@ -26,29 +30,15 @@ class Display extends Component {
     roomname: ''
   };
 
-  handleOnChange = (event) => {
-    const { name, value } = event.target;
-
-    this.setState({
-      [name]: value
-    })
-  }
-
   handleSubmit = (event) => {
-    event.preventDefault();
+    const { history, handleLoginSubmit } = this.props;
+
+    if (!event.username) {
+      return alert('Please add a username.');
+    }
     
-    if (!this.state.roomname) {
-      this.setState({
-        roomname: 'random'
-      })
-    }
-
-    if (!this.state.username) {
-      alert('Please add a username.');
-    } else {
-      this.props.history.push(`/general`);
-    }
-
+    handleLoginSubmit(event.username)
+    history.push('/general'); 
     // io.emit('add user', this.state.username);
   }
 
@@ -57,7 +47,7 @@ class Display extends Component {
       <div>
         <Switch>                          
           <Route exact path = '/' >
-            <Login history = { history } handleOnChange = { this.handleOnChange } handleSubmit = { this.handleSubmit }/>
+            <Login history = { history } onSubmit = { this.handleSubmit } />
           </Route>
           <Route path = '/general' >
             <Chat username = { this.state.username } />
@@ -68,5 +58,12 @@ class Display extends Component {
   };
 }
 
+const mapDispatchToProps = (dispatch) => (
+  {
+    handleLoginSubmit: (username) => (
+      dispatch(updateUsername(username))
+    )
+  }
+)
 
-export default Display;
+export default withRouter(connect(null, mapDispatchToProps)(Display));

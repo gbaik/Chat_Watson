@@ -15,18 +15,23 @@ class Chat extends Component {
   }
 
   handleSubmit = (event) => {
-    if (!event.message) {
+    if (!event.text) {
       return alert('Please enter a message.');
-    } 
-   
-    socket.emit('sendMessage', event.message);
+    }
+
+    let message = {
+      username: this.props.username,
+      text: event.text
+    }
+
+    socket.emit('sendMessage', message);
   }
 
   render() {
     return (
       <div>
         {this.props.messages.map((message, index) => (
-          <p key = { index }>{ this.props.username }: { message }</p>
+          <p key = { index }>{ message.username }: { message.text }</p>              
         ))}
         <MessageForm socket = { socket } onSubmit = { this.handleSubmit }/>
       </div>
@@ -35,6 +40,7 @@ class Chat extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  username: state.Display.username,
   messages: state.Display.messages
 });
 

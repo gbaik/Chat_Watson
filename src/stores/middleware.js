@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 const middleware = applyMiddleware(
   thunk,
   promiseMiddleware(), 
-  logger
+  // logger
 );
 
 export default middleware;

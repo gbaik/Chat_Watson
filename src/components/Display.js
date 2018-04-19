@@ -36,7 +36,7 @@ class Display extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
+    
     if (!this.state.roomname) {
       this.setState({
         roomname: 'random'
@@ -60,7 +60,7 @@ class Display extends Component {
             <Login history = { history } handleOnChange = { this.handleOnChange } handleSubmit = { this.handleSubmit }/>
           </Route>
           <Route path = '/general' >
-            <Chat username = { this.state.username }/>
+            <Chat username = { this.state.username } />
           </Route>
         </Switch>
       </div>

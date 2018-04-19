@@ -1,6 +1,12 @@
-import { applyMiddleware } from "redux"
-import logger from "redux-logger"
-import thunk from "redux-thunk"
-import promise from "redux-promise-middleware"
+import { applyMiddleware } from 'redux';
+import logger from 'redux-logger';
+import promiseMiddleware from 'redux-promise-middleware';
+import thunk from 'redux-thunk';
 
-export default applyMiddleware(logger(), promise(), thunk);
+const middleware = applyMiddleware(
+  thunk,
+  promiseMiddleware(), 
+  logger
+);
+
+export default middleware;

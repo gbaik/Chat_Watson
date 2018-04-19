@@ -1,36 +1,17 @@
-import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import React from 'react';
 
-class MessageForm extends Component { 
-  state = {
-    message: ''
-  };
+import RenderField from './RenderField.js';
 
-  handleOnChange = (event) => {
-    this.setState({
-      message: event.target.value
-    })
-  }
+const MessageForm = ({ handleSubmit }) => (
+  <div>
+    <form onSubmit = { handleSubmit }>
+        <Field name = 'message' component = { RenderField } /> 
+        <input type = 'submit'/>            
+    </form>
+  </div>
+);
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    this.props.socket.emit('sendMessage', this.state.message);
-    
-    this.setState({
-      message: ''
-    })
-  }
-
-  render() {
-    return (
-      <div>
-        <form onSubmit = { this.handleSubmit }>
-          <input type = 'text' value = { this.state.message } onChange = { this.handleOnChange }/>
-          <input type = 'submit'/>
-        </form>
-      </div>
-    );
-  };
-}
-
-export default MessageForm;
+export default reduxForm({
+  form: 'MessageForm'
+})(MessageForm);

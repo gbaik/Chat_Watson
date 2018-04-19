@@ -1,23 +1,23 @@
 import createHistory from 'history/createBrowserHistory';
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom';
 
 import Display from './components/Display';
+import reducer from './stores/reducers'
+import middleware from './stores/middleware';
 
-// import { createStore } from "redux"
-// import { Provider } from "react-redux"
-
-// import reducer from "./store/reducers"
-// import middleware from "./store/middleware";
-
-// const store = createStore(reducer, middleware);
+const store = createStore(reducer, middleware);
 const history = createHistory();
 
 const App = () => (
-  <Router history = { history }>  
-    <Display history = { history }/>
-  </Router>    
+  <Provider store = { store }>
+    <Router history = { history }>  
+      <Display history = { history }/>
+    </Router>
+  </Provider>
 );
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));

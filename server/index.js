@@ -9,6 +9,10 @@ const io = require('socket.io').listen(server);
 
 app.use(express.static(path.join(__dirname, '../public')));
 
+app.get('*', function (req, res) {
+  res.sendFile(path.resolve(__dirname + '/../public/index.html'));
+});
+
 io.on('connection', (socket) => {
   console.log('User connected');
  

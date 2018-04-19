@@ -13,7 +13,12 @@ class MessageForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
     this.props.socket.emit('sendMessage', this.state.message);
+    
+    this.setState({
+      message: ''
+    })
   }
 
   render() {

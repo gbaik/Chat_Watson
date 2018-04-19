@@ -21,7 +21,7 @@ class Chat extends Component {
     return (
       <div>
         {this.state.messages.map((message, index) => (
-          <p key = { index }>{ message }</p>
+          <p key = { index }>{this.props.username }: { message }</p>
         ))}
         <MessageForm socket = { socket }/>
       </div>

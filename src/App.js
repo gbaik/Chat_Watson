@@ -7,8 +7,8 @@ import io from 'socket.io-client';
 
 const App = () => (
   <div>
-    <Chat />
-    {/* <Login /> */}
+    {/* <Chat /> */}
+    <Login />
   </div>
 )
 

@@ -1,16 +1,18 @@
 const initialState = {
   username: '',
+  outputLanguage: '',
   messages: []
 };
 
 const display = (state = initialState, action) => {
   switch(action.type) {
     case 'UPDATE_USERNAME':
-      const { username } = action.payload;
+      const { username, outputLanguage } = action.payload;
       
       return {
         ...state,
-        username: username
+        username: username,
+        outputLanguage: outputLanguage
       }
     case 'DISPLAY_NEW_MESSAGE':
       const { message } = action.payload;

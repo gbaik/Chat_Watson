@@ -1,8 +1,9 @@
-export const updateUsername = (username) => (
+export const updateUsername = (username, outputLanguage) => (
   {
     type: 'UPDATE_USERNAME',
     payload: {
-      username: username
+      username: username,
+      outputLanguage: outputLanguage
     }
   }
 )

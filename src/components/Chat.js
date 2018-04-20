@@ -15,13 +15,16 @@ class Chat extends Component {
   }
 
   handleSubmit = (event) => {
+    const { username, outputLanguage } = this.props;
+
     if (!event.text) {
       return alert('Please enter a message.');
     }
 
     let message = {
-      username: this.props.username,
-      text: event.text
+      username: username,
+      text: event.text,
+      outputLanguage: outputLanguage
     }
 
     socket.emit('sendMessage', message);
@@ -41,6 +44,7 @@ class Chat extends Component {
 
 const mapStateToProps = (state) => ({
   username: state.Display.username,
+  outputLanguage: state.Display.outputLanguage,
   messages: state.Display.messages
 });
 

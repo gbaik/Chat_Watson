@@ -1,4 +1,3 @@
-// import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router'
 
@@ -8,36 +7,19 @@ import io from 'socket.io-client';
 
 import { updateUsername } from  '../stores/Display/actions';
 
-// const Display = ({ history }) => (
-//   <div>
-//     <Switch>                          
-//       <Route exact path = '/' >
-//         <Login history = { history }/>
-//       </Route>
-//       <Route path = '/general' >
-//         <Chat />
-//       </Route>
-//     </Switch>   
-//   </div>
-// )
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class Display extends Component { 
-  state = {
-    username: '',
-    roomname: ''
-  };
-
   handleSubmit = (event) => {
     const { history, handleLoginSubmit } = this.props;
+    const { username, outputLanguage } = event;
 
-    if (!event.username) {
-      return alert('Please add a username.');
+    if (!event.username || !event.outputLanguage) {
+      return alert('Please fill in the all the fields.');
     }
-    
-    handleLoginSubmit(event.username)
+
+    handleLoginSubmit(username, outputLanguage);
     history.push('/general'); 
     // io.emit('add user', this.state.username);
   }
@@ -50,7 +32,7 @@ class Display extends Component {
             <Login history = { history } onSubmit = { this.handleSubmit } />
           </Route>
           <Route path = '/general' >
-            <Chat username = { this.state.username } />
+            <Chat />
           </Route>
         </Switch>
       </div>
@@ -60,10 +42,10 @@ class Display extends Component {
 
 const mapDispatchToProps = (dispatch) => (
   {
-    handleLoginSubmit: (username) => (
-      dispatch(updateUsername(username))
+    handleLoginSubmit: (username, outputLanguage) => (
+      dispatch(updateUsername(username, outputLanguage))
     )
   }
-)
+);
 
 export default withRouter(connect(null, mapDispatchToProps)(Display));

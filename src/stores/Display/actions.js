@@ -1,9 +1,10 @@
-export const updateUsername = (username, outputLanguage) => (
+export const updateUsername = (username, outputLanguage, playAudio) => (
   {
     type: 'UPDATE_USERNAME',
     payload: {
       username: username,
-      outputLanguage: outputLanguage
+      outputLanguage: outputLanguage,
+      playAudio: playAudio
     }
   }
 )

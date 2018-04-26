@@ -13,15 +13,14 @@ import { connect } from 'react-redux';
 class Display extends Component { 
   handleSubmit = (event) => {
     const { history, handleLoginSubmit } = this.props;
-    const { username, outputLanguage } = event;
+    const { username, outputLanguage, playAudio } = event;
 
-    if (!event.username || !event.outputLanguage) {
+    if (!username || !outputLanguage || !playAudio) {
       return alert('Please fill in the all the fields.');
     }
 
-    handleLoginSubmit(username, outputLanguage);
-    history.push('/general'); 
-    // io.emit('add user', this.state.username);
+    handleLoginSubmit(username, outputLanguage, playAudio);
+    history.push('/general');
   }
 
   render() {
@@ -42,8 +41,8 @@ class Display extends Component {
 
 const mapDispatchToProps = (dispatch) => (
   {
-    handleLoginSubmit: (username, outputLanguage) => (
-      dispatch(updateUsername(username, outputLanguage))
+    handleLoginSubmit: (username, outputLanguage, playAudio) => (
+      dispatch(updateUsername(username, outputLanguage, playAudio))
     )
   }
 );

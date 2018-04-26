@@ -1,11 +1,20 @@
-const path = require('path');
 const express = require('express');
-
+const fs = require('fs');
+const path = require('path');
+const player = require('play-sound')(opts = {});
+ 
 const LanguageTranslatorV2 = require('watson-developer-cloud/language-translator/v2');
 const languageTranslator = new LanguageTranslatorV2({
     url: "https://gateway.watsonplatform.net/language-translator/api",
-    username: process.env.IBM_WATSON_API_USERNAME,
-    password: process.env.IBM_WATSON_API_PASSWORD,
+    username: process.env.IBM_WATSON_TRANSLATE_USERNAME,
+    password: process.env.IBM_WATSON_TRANSLATE_PASSWORD,
+});
+
+const TextToSpeechV1 = require('watson-developer-cloud/text-to-speech/v1');
+const textToSpeech = new TextToSpeechV1({
+  url: 'https://stream.watsonplatform.net/text-to-speech/api/',
+  username: process.env.IBM_WATSON_TEXT_TO_SPEECH_USERNAME,
+  password: process.env.IBM_WATSON_TEXT_TO_SPEECH_PASSWORD
 });
 
 const app = express();
@@ -42,8 +51,36 @@ io.on('connection', (socket) => {
           text: translation
         }
 
-        io.emit('displayMessage', translatedMesage);        
+        io.emit('displayMessage', translatedMesage);
     })
+  });
+
+  socket.on('playAudio', (message) => {
+    let params = {
+      text: message.text,
+      accept: 'audio/wav'
+    };
+
+    textToSpeech
+      .synthesize(params, function(err, audio) {
+        if (err) throw err
+
+        textToSpeech.repairWavHeader(audio);
+
+        fs.writeFile('audio.wav', audio, { flag: 'wx' }, function (err) {
+          if (err) throw err
+          
+          player.play('audio.wav', function(err) {
+            if (err) throw err
+
+            fs.unlink('audio.wav',function(err) {
+              if(err) return console.log(err);
+
+              console.log('file deleted successfully');
+            });  
+          })
+        });        
+    });
   })
 
   socket.on('disconnect', () => {
